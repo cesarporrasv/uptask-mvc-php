@@ -1,0 +1,71 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(0 0 0 / 0.6);
+
+  .form {
+    max-width: 60rem;
+    background-color: v.$white;
+    padding: 2rem;
+    margin: 0 auto;
+    transform: translateY(-30rem);
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in;
+    opacity: 0;
+    border-radius: 0.8rem;
+
+    legend {
+      font-size: 2rem;
+      font-weight: v.$bold;
+      display: block;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    input[type="text"] {
+      border: 1px solid v.$gray;
+    }
+
+    label {
+      font-size: 2rem;
+      font-weight: v.$bold;
+      display: block;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .submit-new-task {
+      @include m.button(v.$indigo, v.$white);
+      font-size: 1.5rem;
+    }
+
+    .close-modal {
+      @include m.button(v.$orange, v.$white);
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    &.animate {
+      position: relative;
+      top: 50%;
+      transform: translateY(-100%);
+      opacity: 1;
+    }
+
+    &.close {
+      transform: translateY(-200%);
+      opacity: 0;
+    }
+  }
+}

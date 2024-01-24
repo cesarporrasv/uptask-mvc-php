@@ -1,0 +1,11 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.container-new-task {
+    display: flex;
+    justify-content: center;
+
+  .add-task {
+    @include m.button(v.$cyan, v.$lightGray);
+  }
+}

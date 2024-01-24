@@ -1,0 +1,21 @@
+@use "base/mixins" as m;
+@use "base/variables" as v;
+
+.login {
+  margin-top: 10rem;
+
+  .uptask {
+    @include m.gradient(v.$blue);
+    font-size: 8rem;
+  }
+
+  input[type="submit"] {
+    @include m.button(v.$blue, v.$white);
+  }
+
+  .actions {
+    a {
+      color: v.$blue;
+    }
+  }
+}

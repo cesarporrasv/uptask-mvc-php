@@ -1,0 +1,17 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.confirm {
+  margin-top: 10rem;
+
+  .uptask {
+    @include m.gradient(v.$purple);
+  }
+
+  .actions {
+    justify-content: center;
+    a {
+      color: v.$purple;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.message {
+  margin-top: 10rem;
+
+  .uptask {
+    @include m.gradient(v.$orange);
+  }
+}
