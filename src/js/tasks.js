@@ -87,6 +87,7 @@
     // Construir la peticion
     const data = new FormData();
     data.append("name", task);
+    data.append("projectId", getProject());
 
     try {
       const url = "http://localhost:3000/api/task";
@@ -100,5 +101,11 @@
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function getProject() {
+    const projectParams = new URLSearchParams(window.location.search);
+    const project = Object.fromEntries(projectParams.entries());
+    return project.id;
   }
 })();
