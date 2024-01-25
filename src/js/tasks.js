@@ -98,6 +98,12 @@
 
       const result = await response.json();
       console.log(result);
+
+      showAlert(
+        result.message,
+        result.type,
+        document.querySelector(".form legend")
+      );
     } catch (error) {
       console.log(error);
     }
