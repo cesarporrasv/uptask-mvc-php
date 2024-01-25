@@ -51,7 +51,7 @@
     }
 
     .close-modal {
-      @include m.button(v.$orange, v.$white);
+      @include m.button(#f11d1d, v.$white);
       font-size: 1.5rem;
       padding: 1.5rem 2rem;
       margin: 0;
