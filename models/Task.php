@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class task extends ActiveRecord
+class Task extends ActiveRecord
 {
     protected static $table = 'tasks';
     protected static $columnsDB = ['id', 'name', 'status', 'projectId'];

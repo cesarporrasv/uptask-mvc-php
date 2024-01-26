@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Project;
+use Model\Task;
 
 class TaskController
 {

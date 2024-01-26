@@ -96,12 +96,12 @@
         body: data,
       });
 
-      const result = await response.json();
-      console.log(result);
+      const output = await response.json();
+      console.log(output);
 
       showAlert(
-        result.message,
-        result.type,
+        output.message,
+        output.type,
         document.querySelector(".form legend")
       );
     } catch (error) {
