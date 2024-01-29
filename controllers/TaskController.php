@@ -27,13 +27,17 @@ class TaskController
                     'message' => 'Error al agregar la tarea'
                 ];
                 echo json_encode($response);
-            } else {
-                $response = [
-                    'type' => 'success',
-                    'message' => 'Tarea agregada correctamente'
-                ];
-                echo json_encode($response);
             }
+            // Todo bien, instanciar y crear la tarea
+            $task = new Task($_POST);
+            $task->projectId = $project->id;
+            $output = $task->save();
+            $response = [
+                'type' => 'success',
+                'id' => $output['id'],
+                'message' => 'Tarea Creada Correctamente'
+            ];
+            echo json_encode($response);
         }
     }
 

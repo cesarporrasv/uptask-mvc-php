@@ -104,6 +104,13 @@
         output.type,
         document.querySelector(".form legend")
       );
+
+      if (output.type === "success") {
+        const modal = document.querySelector(".modal");
+        setTimeout(() => {
+          modal.remove();
+        }, 2000);
+      }
     } catch (error) {
       console.log(error);
     }
