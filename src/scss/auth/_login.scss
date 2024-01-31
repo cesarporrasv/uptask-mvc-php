@@ -11,6 +11,7 @@
 
   input[type="submit"] {
     @include m.button(v.$blue, v.$white);
+    margin: 3.5rem 0 0;
   }
 
   .actions {

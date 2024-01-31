@@ -2,10 +2,72 @@
 @use "base/mixins" as m;
 
 .container-new-task {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
   .add-task {
     @include m.button(v.$cyan, v.$lightGray);
+  }
+}
+
+.tasks-list {
+  list-style: none;
+  padding: 0;
+
+  .no-tasks {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bolder;
+  }
+}
+
+.task {
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid darken($color: v.$lightGray, $amount: 10%);
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-of-type {
+    border: none;
+  }
+
+  p {
+    font-size: 1.6rem;
+  }
+
+  .options {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      border: none;
+      border-radius: 0.8rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .completa {
+      background-color: v.$blue;
+      color: v.$white;
+    }
+
+    .pendiente {
+      background-color: v.$orange;
+      color: v.$white;
+    }
+
+    .delete-task {
+      background-color: v.$red;
+      color: v.$white;
+    }
   }
 }

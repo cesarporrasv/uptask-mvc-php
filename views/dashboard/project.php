@@ -10,6 +10,8 @@
         </div>
     </div>
 
+    <ul class="tasks-list" id=tasks-list></ul>
+
 <?php include_once __DIR__ . '/footer-dashboard.php'; ?>
 
 <?php  

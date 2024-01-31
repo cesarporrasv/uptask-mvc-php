@@ -1,7 +1,73 @@
 (function () {
+  getTasks();
+
   // Boton para mostrar el modal de agregar tarea
   const newTaskBtn = document.querySelector("#add-task");
   newTaskBtn.addEventListener("click", showForm);
+
+  async function getTasks() {
+    try {
+      const id = getProject();
+      const url = `/api/tasks?id=${id}`;
+      const response = await fetch(url);
+      const output = await response.json();
+      const { tasks } = output;
+
+      showTasks(tasks);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function showTasks(tasks) {
+    if (tasks.length === 0) {
+      const tasksContainer = document.querySelector("#tasks-list");
+
+      const noTasksText = document.createElement("LI");
+      noTasksText.textContent = "No Hay Tareas";
+      noTasksText.classList.add("no-tasks");
+
+      tasksContainer.appendChild(noTasksText);
+      return;
+    }
+
+    const status = {
+      0: "Pendiente",
+      1: "Completa",
+    };
+    tasks.forEach((task) => {
+      const taskContainer = document.createElement("LI");
+      taskContainer.dataset.taskId = task.id;
+      taskContainer.classList.add("task");
+
+      const taskName = document.createElement("P");
+      taskName.textContent = task.name;
+
+      const optionsDiv = document.createElement("DIV");
+      optionsDiv.classList.add("options");
+
+      // Botones
+      const btnTaskStatus = document.createElement("BUTTON");
+      btnTaskStatus.classList.add("task-status");
+      btnTaskStatus.classList.add(`${status[task.status].toLowerCase()}`);
+      btnTaskStatus.textContent = status[task.status];
+      btnTaskStatus.dataset.taskStatus = task.status;
+
+      const btnDeleteTask = document.createElement("BUTTON");
+      btnDeleteTask.classList.add("delete-task");
+      btnDeleteTask.dataset.idTask = task.id;
+      btnDeleteTask.textContent = "Eliminar";
+
+      optionsDiv.appendChild(btnTaskStatus);
+      optionsDiv.appendChild(btnDeleteTask);
+
+      taskContainer.appendChild(taskName);
+      taskContainer.appendChild(optionsDiv);
+
+      const tasksList = document.querySelector("#tasks-list");
+      tasksList.appendChild(taskContainer);
+    });
+  }
 
   function showForm() {
     const modal = document.createElement("DIV");

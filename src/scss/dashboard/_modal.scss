@@ -33,6 +33,11 @@
       border: 1px solid v.$gray;
     }
 
+    input[type="submit"] {
+      padding: 1.5rem;
+      margin:1rem 0;
+    }
+
     label {
       font-size: 2rem;
       font-weight: v.$bold;
@@ -41,20 +46,26 @@
     }
 
     .options {
-      display: flex;
+      @include m.phone {
+        display: flex;
+        margin-top: 0;
+      }
+
+      gap: 1rem;
       justify-content: space-between;
+      align-items: center
     }
 
     .submit-new-task {
       @include m.button(v.$indigo, v.$white);
       font-size: 1.5rem;
+      margin-top: 0
     }
 
     .close-modal {
       @include m.button(#f11d1d, v.$white);
       font-size: 1.5rem;
-      padding: 1.5rem 2rem;
-      margin: 0;
+      margin:0;
     }
 
     &.animate {
