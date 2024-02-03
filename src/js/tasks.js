@@ -1,5 +1,6 @@
 (function () {
   getTasks();
+  let tasks = [];
 
   // Boton para mostrar el modal de agregar tarea
   const newTaskBtn = document.querySelector("#add-task");
@@ -11,15 +12,16 @@
       const url = `/api/tasks?id=${id}`;
       const response = await fetch(url);
       const output = await response.json();
-      const { tasks } = output;
 
-      showTasks(tasks);
+      tasks = output.tasks;
+      showTasks();
     } catch (error) {
       console.log(error);
     }
   }
 
-  function showTasks(tasks) {
+  function showTasks() {
+    cleanTasks();
     if (tasks.length === 0) {
       const tasksContainer = document.querySelector("#tasks-list");
 
@@ -52,11 +54,17 @@
       btnTaskStatus.classList.add(`${status[task.status].toLowerCase()}`);
       btnTaskStatus.textContent = status[task.status];
       btnTaskStatus.dataset.taskStatus = task.status;
+      btnTaskStatus.ondblclick = function () {
+        changeTaskStatus({ ...task });
+      };
 
       const btnDeleteTask = document.createElement("BUTTON");
       btnDeleteTask.classList.add("delete-task");
       btnDeleteTask.dataset.idTask = task.id;
       btnDeleteTask.textContent = "Eliminar";
+      btnDeleteTask.ondblclick = function () {
+        confirmDeleteTask({ ...task });
+      };
 
       optionsDiv.appendChild(btnTaskStatus);
       optionsDiv.appendChild(btnDeleteTask);
@@ -145,7 +153,7 @@
     // Eliminar alerta despues de 5 seg
     setTimeout(() => {
       alert.remove();
-    }, 5000);
+    }, 2500);
   }
 
   // Consultar servidor para añadir una nueva tarea
@@ -165,26 +173,131 @@
       const output = await response.json();
       console.log(output);
 
-      showAlert(
-        output.message,
-        output.type,
-        document.querySelector(".form legend")
-      );
+      Swal.fire("Tarea Agregada Correctamente");
 
       if (output.type === "success") {
         const modal = document.querySelector(".modal");
         setTimeout(() => {
           modal.remove();
         }, 2000);
+
+        // Agregar el Objeto de tarea al global de tareas
+        const taskObj = {
+          id: String(output.id),
+          name: task,
+          status: "0",
+          projectId: output.projectId,
+        };
+        tasks = [...tasks, taskObj];
+        showTasks();
       }
     } catch (error) {
       console.log(error);
     }
   }
 
+  function changeTaskStatus(task) {
+    const newStatus = task.status === "1" ? "0" : "1";
+    task.status = newStatus;
+    updateTask(task);
+  }
+
+  async function updateTask(task) {
+    const { status, id, name, projectId } = task;
+
+    const data = new FormData();
+    data.append("id", id);
+    data.append("name", name);
+    data.append("status", status);
+    data.append("projectId", getProject());
+
+    // Comprobar datos antes de enviar el servidor
+    // for (let value of data.values()) {
+    //   console.log(value);
+    // }
+
+    try {
+      const url = "http://localhost:3000/api/task/update";
+
+      const response = await fetch(url, {
+        method: "POST",
+        body: data,
+      });
+      const output = await response.json();
+
+      if (output.response.type === "success") {
+        showAlert(
+          output.response.message,
+          output.response.type,
+          document.querySelector(".container-new-task")
+        );
+
+        tasks = tasks.map((taskMem) => {
+          if (taskMem.id === id) {
+            taskMem.status = status;
+          }
+
+          return taskMem;
+        });
+
+        showTasks();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function confirmDeleteTask(task) {
+    Swal.fire({
+      title: "Eliminar Tarea?",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTask(task);
+      }
+    });
+  }
+
+  async function deleteTask(task) {
+    const { status, id, name } = task;
+
+    const data = new FormData();
+    data.append("id", id);
+    data.append("name", name);
+    data.append("status", status);
+    data.append("projectId", getProject());
+
+    try {
+      const url = "http://localhost:3000/api/task/delete";
+      const response = await fetch(url, {
+        method: "POST",
+        body: data,
+      });
+
+      const output = await response.json();
+      if (output.output) {
+        
+        Swal.fire("Eliminado!", output.message, "success");
+
+        tasks = tasks.filter((taskMem) => taskMem.id !== task.id);
+        showTasks();
+      }
+    } catch (error) {}
+  }
+
   function getProject() {
     const projectParams = new URLSearchParams(window.location.search);
     const project = Object.fromEntries(projectParams.entries());
     return project.id;
+  }
+
+  function cleanTasks() {
+    const tasksList = document.querySelector("#tasks-list");
+
+    while (tasksList.firstChild) {
+      tasksList.removeChild(tasksList.firstChild);
+    }
   }
 })();
