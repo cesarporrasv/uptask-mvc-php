@@ -4,7 +4,9 @@
 
   // Boton para mostrar el modal de agregar tarea
   const newTaskBtn = document.querySelector("#add-task");
-  newTaskBtn.addEventListener("click", showForm);
+  newTaskBtn.addEventListener("click", function () {
+    showForm();
+  });
 
   async function getTasks() {
     try {
@@ -44,6 +46,9 @@
 
       const taskName = document.createElement("P");
       taskName.textContent = task.name;
+      taskName.ondblclick = function () {
+        showForm((edit = true), { ...task });
+      };
 
       const optionsDiv = document.createElement("DIV");
       optionsDiv.classList.add("options");
@@ -77,23 +82,32 @@
     });
   }
 
-  function showForm() {
+  function showForm(edit = false, task = {}) {
     const modal = document.createElement("DIV");
     modal.classList.add("modal");
     modal.innerHTML = `
       <form class="form new-task">
-        <legend>Añade una nueva Tarea</legend>
+        <legend>${
+          edit ? "Editar nombre tarea" : "Añade un nueva tarea"
+        }</legend>
         <div class="field">
           <label>Tarea</label>
           <input
             type="text"
             name="task"
-            placeholder="Añade una tarea al Proyecto"
+            placeholder="${
+              task.name ? "Edita el nombre" : "Añade una tarea al Proyecto"
+            }"
             id="task"
+            value="${task.name ? task.name : ""}"
           />
         </div>
         <div class="options">
-          <input type="submit" class="submit-new-task" value="Añadir Tarea" />
+          <input 
+            type="submit" 
+            class="submit-new-task" 
+            value="${task.name ? "Guardar Cambios" : "Añadir Tarea"}" 
+          />
           <button type="button" class="close-modal">Cancelar</button>
         </div>
       </form>
@@ -113,28 +127,30 @@
         }, 400);
       }
       if (e.target.classList.contains("submit-new-task")) {
-        submitFormNewTask();
+        const taskName = document.querySelector("#task").value.trim();
+
+        if (taskName === "") {
+          // Mostrar alerta de error
+          showAlert(
+            "Debes agregar un nombre a la tarea",
+            "error",
+            document.querySelector(".form legend")
+          );
+          return;
+        }
+
+        if (edit) {
+          task.name = taskName;
+          updateTask(task);
+        } else {
+          addTask(taskName);
+        }
       }
     });
 
     document.querySelector(".dashboard").appendChild(modal);
   }
 
-  function submitFormNewTask() {
-    const task = document.querySelector("#task").value.trim();
-
-    if (task === "") {
-      // Mostrar alerta de error
-      showAlert(
-        "Debes agregar un nombre a la tarea",
-        "error",
-        document.querySelector(".form legend")
-      );
-      return;
-    }
-
-    addTask(task);
-  }
   // Muestra un mensaje en la interfaz
   function showAlert(message, type, reference) {
     // Previene la creacion de multiples alertas
@@ -171,9 +187,8 @@
       });
 
       const output = await response.json();
-      console.log(output);
 
-      Swal.fire("Tarea Agregada Correctamente");
+      Swal.fire("Agregada!", output.message, "success");
 
       if (output.type === "success") {
         const modal = document.querySelector(".modal");
@@ -225,16 +240,20 @@
       });
       const output = await response.json();
 
+      // console.log(output);
+
       if (output.response.type === "success") {
-        showAlert(
-          output.response.message,
-          output.response.type,
-          document.querySelector(".container-new-task")
-        );
+        Swal.fire("Actualizada!", output.response.message, "success");
+
+        const modal = document.querySelector(".modal");
+        if (modal) {
+          modal.remove();
+        }
 
         tasks = tasks.map((taskMem) => {
           if (taskMem.id === id) {
             taskMem.status = status;
+            taskMem.name = name;
           }
 
           return taskMem;
@@ -278,8 +297,7 @@
 
       const output = await response.json();
       if (output.output) {
-        
-        Swal.fire("Eliminado!", output.message, "success");
+        Swal.fire("Eliminada!", output.message, "success");
 
         tasks = tasks.filter((taskMem) => taskMem.id !== task.id);
         showTasks();

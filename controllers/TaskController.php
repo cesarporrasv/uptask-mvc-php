@@ -79,7 +79,7 @@ class TaskController
             if ($output) {
                 $response = [
                     'type' => 'success',
-                    'message' => 'Actualizado Correctamente',
+                    'message' => 'Tarea Actualizada Correctamente',
                     'id' => $task->id,
                     'projectId' => $project->id,
                 ];
@@ -110,7 +110,7 @@ class TaskController
 
             $output = [
                 'output' => $output,
-                'message' => 'Eliminado Correctamente',
+                'message' => 'Eliminada Correctamente',
                 'type' => 'success',
             ];
 
