@@ -10,6 +10,42 @@
         </div>
     </div>
 
+    <div class="filters" id="filters">
+        <div class="filters-inputs">
+            <h2>Filtros:</h2>
+            <div class="field">
+                <label for="all">Todas</label>
+                <input 
+                    type="radio"
+                    id="all"
+                    name="filter"
+                    value=""
+                    checked
+                />
+            </div>
+
+            <div class="field">
+                <label for="done">Completadas</label>
+                <input 
+                    type="radio"
+                    id="done"
+                    name="filter"
+                    value="1"
+                />
+            </div>
+
+            <div class="field">
+                <label for="to-do">Pendientes</label>
+                <input 
+                    type="radio"
+                    id="to-do"
+                    name="filter"
+                    value="2"
+                />
+            </div>
+        </div>
+    </div>
+
     <ul class="tasks-list" id=tasks-list></ul>
 
 <?php include_once __DIR__ . '/footer-dashboard.php'; ?>
