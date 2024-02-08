@@ -25,6 +25,16 @@
             </div>
 
             <div class="field">
+                <label for="to-do">Pendientes</label>
+                <input 
+                    type="radio"
+                    id="to-do"
+                    name="filter"
+                    value="0"
+                />
+            </div>
+            
+            <div class="field">
                 <label for="done">Completadas</label>
                 <input 
                     type="radio"
@@ -34,15 +44,6 @@
                 />
             </div>
 
-            <div class="field">
-                <label for="to-do">Pendientes</label>
-                <input 
-                    type="radio"
-                    id="to-do"
-                    name="filter"
-                    value="2"
-                />
-            </div>
         </div>
     </div>
 

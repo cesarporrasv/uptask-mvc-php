@@ -1,12 +1,31 @@
 (function () {
   getTasks();
   let tasks = [];
+  let filtered = [];
 
   // Boton para mostrar el modal de agregar tarea
   const newTaskBtn = document.querySelector("#add-task");
   newTaskBtn.addEventListener("click", function () {
     showForm();
   });
+
+  // Filtros de Busqueda
+  const filters = document.querySelectorAll('#filters, input[type="radio"]');
+  filters.forEach((radio) => {
+    radio.addEventListener("input", filterTasks);
+  });
+
+  function filterTasks(e) {
+    const filter = e.target.value;
+
+    if (filter !== "") {
+      filtered = tasks.filter((task) => task.status === filter);
+    } else {
+      filtered = [];
+    }
+
+    showTasks();
+  }
 
   async function getTasks() {
     try {
@@ -24,7 +43,12 @@
 
   function showTasks() {
     cleanTasks();
-    if (tasks.length === 0) {
+    totalPending();
+    totalCompleted();
+
+    const tasksArray = filtered.length ? filtered : tasks;
+
+    if (tasksArray.length === 0) {
       const tasksContainer = document.querySelector("#tasks-list");
 
       const noTasksText = document.createElement("LI");
@@ -39,7 +63,7 @@
       0: "Pendiente",
       1: "Completa",
     };
-    tasks.forEach((task) => {
+    tasksArray.forEach((task) => {
       const taskContainer = document.createElement("LI");
       taskContainer.dataset.taskId = task.id;
       taskContainer.classList.add("task");
@@ -80,6 +104,26 @@
       const tasksList = document.querySelector("#tasks-list");
       tasksList.appendChild(taskContainer);
     });
+  }
+
+  function totalPending() {
+    const totalPending = tasks.filter((task) => task.status === "0");
+
+    const pendingRadio = document.querySelector("#to-do");
+
+    if (totalPending.length === 0) {
+      pendingRadio.disabled = true;
+    } else pendingRadio.disabled = false;
+  }
+
+  function totalCompleted() {
+    const totalCompleted = tasks.filter((task) => task.status === "1");
+
+    const completedRadio = document.querySelector("#done");
+
+    if (totalCompleted.length === 0) {
+      completedRadio.disabled = true;
+    } else completedRadio.disabled = false;
   }
 
   function showForm(edit = false, task = {}) {
