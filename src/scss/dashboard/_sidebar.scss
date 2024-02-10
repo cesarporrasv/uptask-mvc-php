@@ -2,33 +2,106 @@
 @use "base/variables" as v;
 
 .sidebar {
+  opacity: 0;
   background-color: v.$indigo;
-  padding: 2rem;
+  height: 0;
+  overflow: hidden;
+  transition-property: opacity;
+  transition-duration: 600ms;
 
-  h2 {
-    color: v.$white;
-    margin: 0;
+  &.show {
     padding: 2rem;
-    text-align: center;
+    opacity: 1;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(8, 57, 103, 0.95);
+    @include m.tablet {
+      display: none;
+    }
   }
+
+  &.hide {
+    opacity: 0;
+  }
+
+  @include m.tablet {
+    opacity: 1;
+    height: 100%;
+    padding: 2rem;
+    background-color: v.$indigo;
+  }
+
+  .container-sidebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      color: v.$white;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .close-menu {
+      display: flex;
+      justify-content: center;
+      height: 2rem;
+      width: 2rem;
+
+      img {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      @include m.tablet {
+        display: none;
+      }
+    }
+  }
+
   .sidebar-nav {
     margin-top: 5rem;
 
     a {
       color: v.$white;
       display: block;
-      margin-bottom: 1.8rem;
+      margin-bottom: 2rem;
       padding: 0.7rem;
       transition-property: background-color;
       transition-duration: 250ms;
       text-transform: uppercase;
+      text-align: center;
+      font-size: 2.2rem;
       font-weight: v.$bold;
 
       &:hover,
       &.active {
-        background-color: darken(v.$indigo, 10%);
+        background-color: darken(v.$indigo, 15%);
         border-radius: 0.7rem;
       }
+
+      @include m.tablet {
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        text-align: left;
+      }
+    }
+  }
+
+  .sign-off-mobile {
+    margin-top: 8rem;
+    .sign-off {
+      @include m.button(v.$cyan, v.$white);
+    }
+
+    @include m.tablet {
+      display: none;
     }
   }
 }
