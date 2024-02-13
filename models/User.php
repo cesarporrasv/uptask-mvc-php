@@ -14,6 +14,8 @@ class User extends ActiveRecord
         $this->email = $args['email'] ?? '';
         $this->password = $args['password'] ?? '';
         $this->password2 = $args['password2'] ?? '';
+        $this->current_password = $args['current_password'] ?? '';
+        $this->new_password = $args['new_password'] ?? '';
         $this->token = $args['token'] ?? '';
         $this->confirm = $args['confirm'] ?? 0;
     }
@@ -80,14 +82,50 @@ class User extends ActiveRecord
         return self::$alerts;
     }
 
+    // Validar cambio de password
+    public function new_password() : array
+    {
+        if (!$this->current_password) {
+            self::$alerts['error'][] = 'Escribe la Contraseña Actual';
+        }
+
+        if (!$this->new_password) {
+            self::$alerts['error'][] = 'Escribe la Contraseña Nueva';
+        }
+
+        if (strlen($this->new_password) < 8) {
+            self::$alerts['error'][] = 'La Contraseña debe tener al menos 8 caracteres';
+        }
+        return self::$alerts;
+    }
+
+    // Comprobar password
+    public function check_password() : bool
+    {
+        return password_verify($this->current_password, $this->password);
+    }
+
     // Hashea password
-    public function hashPassword()
+    public function hashPassword() : void
     {
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
+    // Validar perfiles
+    public function validate_profile()
+    {
+        if (!$this->name) {
+            self::$alerts['error'][] = 'Debes Escribir un Nombre';
+        }
+
+        if (!$this->email) {
+            self::$alerts['error'][] = 'Debes Escribir un Email';
+        }
+        return self::$alerts;
+    }
+
     // Generar token
-    public function createToken()
+    public function createToken() : void
     {
         $this->token = uniqid();
     }
