@@ -2,7 +2,7 @@
 @use 'base/mixins' as m;
 
 .filters {
-    background-color: lighten($color: v.$lightGray, $amount: 8);
+    background-color: darken($color: v.$lightGray, $amount: 5);
     border-radius: 0.8rem;
     padding: 2rem;
     margin-top: 1rem;

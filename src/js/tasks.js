@@ -224,7 +224,7 @@
     data.append("projectId", getProject());
 
     try {
-      const url = "http://localhost:3000/api/task";
+      const url = "/api/task";
       const response = await fetch(url, {
         method: "POST",
         body: data,
@@ -276,7 +276,7 @@
     // }
 
     try {
-      const url = "http://localhost:3000/api/task/update";
+      const url = "/api/task/update";
 
       const response = await fetch(url, {
         method: "POST",
@@ -333,7 +333,7 @@
     data.append("projectId", getProject());
 
     try {
-      const url = "http://localhost:3000/api/task/delete";
+      const url = '/api/task/delete';
       const response = await fetch(url, {
         method: "POST",
         body: data,

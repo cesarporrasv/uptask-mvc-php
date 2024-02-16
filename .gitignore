@@ -1,5 +1,5 @@
 node_modules
 vendor
 .DS_Store
-includes/database.php
+includes/.env
 

@@ -11,7 +11,9 @@
 }
 
 .tasks-list {
+  background-color: darken($color: v.$lightGray, $amount: 2.5);
   list-style: none;
+  border-radius: 1rem;
   padding: 0;
 
   .no-tasks {
@@ -36,6 +38,10 @@
 
   p {
     font-size: 1.6rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .options {

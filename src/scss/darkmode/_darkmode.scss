@@ -1,0 +1,87 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+@media (prefers-color-scheme: dark) {
+  body,
+  .dashboard {
+    background-color: v.$darkGray;
+  }
+
+  .tagline,
+  .page-description,
+  .page-name,
+  .task p,
+  .no-tasks,
+  .form label,
+  .dashboard .link {
+    color: v.$lightGray;
+  }
+
+  .form .field input,
+  .dashboard .form input:not([type="submit"]) {
+    background-color: darken(v.$lightGray, 10%);
+    color: v.$black;
+  }
+
+  .login .actions a,
+  .create .actions a {
+    color: lighten(v.$blue, 30%);
+    font-size: larger;
+  }
+
+  .forgot .actions a {
+    color: lighten(v.$pink, 30%);
+    font-size: larger;
+  }
+
+  .mobile-bar {
+    background-color: darken(v.$darkGray, 8);
+  }
+
+  .projects-list .project {
+    background-color: darken(v.$darkGray, 5);
+
+    &:hover {
+      background-color: lighten(v.$darkGray, 5);
+    }
+  }
+
+  .sidebar {
+    background-color: darken(v.$darkGray, 5);
+
+    &.show {
+      background-color: darken(v.$darkGray, 5);
+    }
+  }
+
+  .bar,
+  .tasks-list,
+  .modal .form,
+  .filters {
+    background-color: darken(v.$lightGray, 65);
+
+    h2,
+    p,
+    .field label,
+    legend {
+      color: v.$lightGray;
+    }
+  }
+
+  .bar p span {
+    color: darken(v.$lightGray, 20);
+    font-size: large;
+  }
+
+  .tasks-list {
+    border-radius: 0.5rem;
+
+    .task {
+      border-bottom: none;
+    }
+  }
+
+  .no-projects {
+    color: v.$lightGray;
+  }
+}

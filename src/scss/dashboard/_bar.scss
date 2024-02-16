@@ -31,7 +31,7 @@
   display: none;
 
   @include m.tablet {
-    background-color: v.$white;
+    background-color: darken($color: v.$lightGray, $amount: 3);
     padding: 1rem 2rem;
     box-shadow: 1px 12px 9px -13px rgba(0, 0, 0, 0.5);
     display: flex;

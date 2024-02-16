@@ -21,11 +21,11 @@ class Email
     {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = $_ENV['EMAIL_HOST'];
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = '80e241bdd9123e';
-        $mail->Password = '3923ee8d75c42e';
+        $mail->Port = $_ENV['EMAIL_PORT'];
+        $mail->Username = $_ENV['EMAIL_USER'];
+        $mail->Password = $_ENV['EMAIL_PASS'];
 
         $mail->setFrom('admin@uptask.com');
         $mail->addAddress('admin@uptask.com', 'uptask.com');
@@ -36,7 +36,7 @@ class Email
 
         $content = '<html>';
         $content .= "<p><strong>Hola " . $this->name . "</strong> has Creado tu Cuenta en UpTask, debes confirmarla en el siguiente enlace: </p>";
-        $content .= "<p>Presiona Aquí: <a href='http://localhost:3000/confirm?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
+        $content .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/confirm?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
         $content .= "<p>Si tu no creaste esta Cuenta, puedes ignorar este mensaje</p>";
         $content .= '</html>';
 
@@ -50,11 +50,11 @@ class Email
     {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = $_ENV['EMAIL_HOST'];
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = '80e241bdd9123e';
-        $mail->Password = '3923ee8d75c42e';
+        $mail->Port = $_ENV['EMAIL_PORT'];
+        $mail->Username = $_ENV['EMAIL_USER'];
+        $mail->Password = $_ENV['EMAIL_PASS'];
 
         $mail->setFrom('admin@uptask.com');
         $mail->addAddress('admin@uptask.com', 'uptask.com');
@@ -65,7 +65,7 @@ class Email
 
         $content = '<html>';
         $content .= "<p><strong>Hola " . $this->name . "</strong> has olvidado tu contraseña?, puedes reestablecerla en el siguiente link: </p>";
-        $content .= "<p>Presiona Aquí: <a href='http://localhost:3000/reset?token=" . $this->token . "'>Reestablecer Contraseña</a></p>";
+        $content .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/reset?token=" . $this->token . "'>Reestablecer Contraseña</a></p>";
         $content .= "<p>Si no solicitaste este cambio, puedes ignorar este mensaje</p>";
         $content .= '</html>';
 
